@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multiple SMN Radars with Range Rings</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <style>
+        html, body, #map {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([19.405948, -99.09277], 6);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Center and range rings
+        var center = [19.405948, -99.09277];
+        L.circle(center, {
+            radius: 12874.72,
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.1
+        }).addTo(map).bindPopup('8 Mile Radius');
+
+        L.circle(center, {
+            radius: 32186.8,
+            color: 'blue',
+            fillColor: '#03f',
+            fillOpacity: 0.05
+        }).addTo(map).bindPopup('20 Mile Radius');
+
+        L.marker(center).addTo(map).bindPopup('Autódromo');
+
+        // Radar overlays
+        
+        var radarOverlay_Mexico_City_(TMEX) = null;
+        function refreshRadar_Mexico_City_(TMEX)() {
+            if (radarOverlay_Mexico_City_(TMEX)) {
+                map.removeLayer(radarOverlay_Mexico_City_(TMEX));
+            }
+            var timestamp = new Date().getTime();
+            radarOverlay_Mexico_City_(TMEX) = L.imageOverlay("https://smn.conagua.gob.mx/tools/Radar/Radares/TMEX_LATEST.gif?_=" + timestamp, [[18.5, -100.5], [20.3, -97.5]], {
+                opacity: 0.6
+            }).addTo(map);
+        }
+        refreshRadar_Mexico_City_(TMEX)();
+        setInterval(refreshRadar_Mexico_City_(TMEX), 30000);
+    
+        var radarOverlay_Cerro_Catedral_(TCCL) = null;
+        function refreshRadar_Cerro_Catedral_(TCCL)() {
+            if (radarOverlay_Cerro_Catedral_(TCCL)) {
+                map.removeLayer(radarOverlay_Cerro_Catedral_(TCCL));
+            }
+            var timestamp = new Date().getTime();
+            radarOverlay_Cerro_Catedral_(TCCL) = L.imageOverlay("https://smn.conagua.gob.mx/tools/Radar/Radares/TCCL_LATEST.gif?_=" + timestamp, [[24.0, -104.5], [26.0, -101.5]], {
+                opacity: 0.6
+            }).addTo(map);
+        }
+        refreshRadar_Cerro_Catedral_(TCCL)();
+        setInterval(refreshRadar_Cerro_Catedral_(TCCL), 30000);
+    
+        var radarOverlay_Guasave_(TGSV) = null;
+        function refreshRadar_Guasave_(TGSV)() {
+            if (radarOverlay_Guasave_(TGSV)) {
+                map.removeLayer(radarOverlay_Guasave_(TGSV));
+            }
+            var timestamp = new Date().getTime();
+            radarOverlay_Guasave_(TGSV) = L.imageOverlay("https://smn.conagua.gob.mx/tools/Radar/Radares/TGSV_LATEST.gif?_=" + timestamp, [[24.5, -108.0], [26.5, -105.0]], {
+                opacity: 0.6
+            }).addTo(map);
+        }
+        refreshRadar_Guasave_(TGSV)();
+        setInterval(refreshRadar_Guasave_(TGSV), 30000);
+    
+        var radarOverlay_Sabancuy_(TSAB) = null;
+        function refreshRadar_Sabancuy_(TSAB)() {
+            if (radarOverlay_Sabancuy_(TSAB)) {
+                map.removeLayer(radarOverlay_Sabancuy_(TSAB));
+            }
+            var timestamp = new Date().getTime();
+            radarOverlay_Sabancuy_(TSAB) = L.imageOverlay("https://smn.conagua.gob.mx/tools/Radar/Radares/TSAB_LATEST.gif?_=" + timestamp, [[17.5, -92.5], [20.0, -89.5]], {
+                opacity: 0.6
+            }).addTo(map);
+        }
+        refreshRadar_Sabancuy_(TSAB)();
+        setInterval(refreshRadar_Sabancuy_(TSAB), 30000);
+    
+    </script>
+</body>
+</html>
