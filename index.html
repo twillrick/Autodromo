@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SMN Radar (CORS Proxy Fix)</title>
+    <title>SMN Radar (AllOrigins Proxy Fix)</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
@@ -48,7 +48,7 @@
                 map.removeLayer(radarOverlay_Mexico_City_(TMEX));
             }
             var timestamp = new Date().getTime();
-            radarOverlay_Mexico_City_(TMEX) = L.imageOverlay("https://corsproxy.io/?https://smn.conagua.gob.mx/tools/Radar/Radares/TMEX_LATEST.gif?_=" + timestamp, [[18.5, -100.5], [20.3, -97.5]], {
+            radarOverlay_Mexico_City_(TMEX) = L.imageOverlay("https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TMEX_LATEST.gif?_=" + timestamp, [[18.5, -100.5], [20.3, -97.5]], {
                 opacity: 0.6
             }).addTo(map);
         }
@@ -61,7 +61,7 @@
                 map.removeLayer(radarOverlay_Cerro_Catedral_(TCCL));
             }
             var timestamp = new Date().getTime();
-            radarOverlay_Cerro_Catedral_(TCCL) = L.imageOverlay("https://corsproxy.io/?https://smn.conagua.gob.mx/tools/Radar/Radares/TCCL_LATEST.gif?_=" + timestamp, [[24.0, -104.5], [26.0, -101.5]], {
+            radarOverlay_Cerro_Catedral_(TCCL) = L.imageOverlay("https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TCCL_LATEST.gif?_=" + timestamp, [[24.0, -104.5], [26.0, -101.5]], {
                 opacity: 0.6
             }).addTo(map);
         }
@@ -74,7 +74,7 @@
                 map.removeLayer(radarOverlay_Guasave_(TGSV));
             }
             var timestamp = new Date().getTime();
-            radarOverlay_Guasave_(TGSV) = L.imageOverlay("https://corsproxy.io/?https://smn.conagua.gob.mx/tools/Radar/Radares/TGSV_LATEST.gif?_=" + timestamp, [[24.5, -108.0], [26.5, -105.0]], {
+            radarOverlay_Guasave_(TGSV) = L.imageOverlay("https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TGSV_LATEST.gif?_=" + timestamp, [[24.5, -108.0], [26.5, -105.0]], {
                 opacity: 0.6
             }).addTo(map);
         }
@@ -87,7 +87,7 @@
                 map.removeLayer(radarOverlay_Sabancuy_(TSAB));
             }
             var timestamp = new Date().getTime();
-            radarOverlay_Sabancuy_(TSAB) = L.imageOverlay("https://corsproxy.io/?https://smn.conagua.gob.mx/tools/Radar/Radares/TSAB_LATEST.gif?_=" + timestamp, [[17.5, -92.5], [20.0, -89.5]], {
+            radarOverlay_Sabancuy_(TSAB) = L.imageOverlay("https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TSAB_LATEST.gif?_=" + timestamp, [[17.5, -92.5], [20.0, -89.5]], {
                 opacity: 0.6
             }).addTo(map);
         }
