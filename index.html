@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SMN Radar (Fixed Load Order)</title>
+    <title>SMN Radar with Toggles and Timestamp</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
@@ -11,10 +11,22 @@
             margin: 0;
             padding: 0;
         }
+        .timestamp {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 5px 10px;
+            font-family: monospace;
+            z-index: 1000;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
     <div id="map"></div>
+    <div class="timestamp" id="timestamp">Loading timestamp...</div>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
     <script>
     window.onload = function() {
@@ -42,19 +54,40 @@
 
         L.marker(center).addTo(map).bindPopup('Autódromo');
 
-        // Radar overlays with AllOrigins proxy
-        function addRadar(url, bounds, id) {
-            var overlay = L.imageOverlay(url + '?_=' + new Date().getTime(), bounds, { opacity: 0.6 }).addTo(map);
-            setInterval(function() {
-                map.removeLayer(overlay);
-                overlay = L.imageOverlay(url + '?_=' + new Date().getTime(), bounds, { opacity: 0.6 }).addTo(map);
+        // Radar layer toggles
+        var overlays = {};
+
+        function createRadarLayer(name, url, bounds) {
+            let timestamp = new Date().getTime();
+            let layer = L.imageOverlay(url + '?_=' + timestamp, bounds, { opacity: 0.6 });
+            overlays[name] = layer;
+            layer.addTo(map);
+
+            setInterval(() => {
+                let newLayer = L.imageOverlay(url + '?_=' + new Date().getTime(), bounds, { opacity: 0.6 });
+                map.removeLayer(layer);
+                newLayer.addTo(map);
+                overlays[name] = newLayer;
             }, 30000);
         }
 
-        addRadar("https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TMEX_LATEST.gif", [[18.5, -100.5], [20.3, -97.5]], "tmex");
-        addRadar("https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TCCL_LATEST.gif", [[24.0, -104.5], [26.0, -101.5]], "tccl");
-        addRadar("https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TGSV_LATEST.gif", [[24.5, -108.0], [26.5, -105.0]], "tgsv");
-        addRadar("https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TSAB_LATEST.gif", [[17.5, -92.5], [20.0, -89.5]], "tsab");
+        createRadarLayer("Mexico City (TMEX)", "https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TMEX_LATEST.gif", [[18.5, -100.5], [20.3, -97.5]]);
+        createRadarLayer("Cerro Catedral (TCCL)", "https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TCCL_LATEST.gif", [[24.0, -104.5], [26.0, -101.5]]);
+        createRadarLayer("Guasave (TGSV)", "https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TGSV_LATEST.gif", [[24.5, -108.0], [26.5, -105.0]]);
+        createRadarLayer("Sabancuy (TSAB)", "https://api.allorigins.win/raw?url=https://smn.conagua.gob.mx/tools/Radar/Radares/TSAB_LATEST.gif", [[17.5, -92.5], [20.0, -89.5]]);
+
+        L.control.layers(null, overlays).addTo(map);
+
+        // Timestamp for US Mountain Time (UTC-7)
+        function updateTimestamp() {
+            let now = new Date();
+            let utcMillis = now.getTime() + now.getTimezoneOffset() * 60000;
+            let mtnTime = new Date(utcMillis - 7 * 3600000);
+            document.getElementById("timestamp").innerText =
+                "Radar Time (US Mountain): " + mtnTime.toLocaleString('en-US');
+        }
+        updateTimestamp();
+        setInterval(updateTimestamp, 30000);
     };
     </script>
 </body>
